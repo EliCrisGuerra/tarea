@@ -1,49 +1,48 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import csv
+import numpy as np
 
-def graficar_polinomios(*polinomios):
+def calcular_polinomios(x_valores, *polinomios):
     """
-    Función para graficar múltiples polinomios de la forma ax^n
+    Función para calcular valores de múltiples polinomios de la forma ax^n
     
     Parámetros:
+    x_valores: Lista o array con los valores de x para evaluar los polinomios
     *polinomios: Tuplas de la forma (a, n) donde:
                  a: coeficiente del polinomio
                  n: exponente del polinomio
+                 
+    Retorna:
+    Un diccionario donde las claves son strings que representan cada polinomio
+    y los valores son arrays con los resultados evaluados en x_valores
     """
-    # Definir el rango x
-    x = np.linspace(-10, 10, 1000)
+    resultados = {}
     
-    # Crear la figura y el eje
-    fig, ax = plt.subplots(figsize=(10, 6))
+    # Calcular cada polinomio
+    for a, n in polinomios:
+        # Calcular y = ax^n para todos los valores de x
+        y = a * (np.array(x_valores) ** n)
+        
+        # Guardar los resultados en el diccionario con un nombre descriptivo
+        nombre_polinomio = f"{a}x^{n}"
+        resultados[nombre_polinomio] = y
     
-    # Graficar cada polinomio
-    for i, (a, n) in enumerate(polinomios):
-        y = a * (x ** n)
-        ax.plot(x, y, label=f"{a}x^{n}")
-    
-    # Configurar la gráfica
-    ax.axhline(y=0, color='k', linestyle='-', alpha=0.3)
-    ax.axvline(x=0, color='k', linestyle='-', alpha=0.3)
-    ax.grid(True, alpha=0.3)
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_title('Gráfica de polinomios de la forma ax^n')
-    ax.legend()
-    
-    # Mostrar la gráfica
-    plt.show()
+    return resultados
 
 # Ejemplo de uso
-# Polinomio 1: 2x^3
-# Polinomio 2: -0.5x^2
-# Polinomio 3: 5x^1
-# Polinomio 4: 1x^4
 if __name__ == "__main__":
-    graficar_polinomios((2, 3), (-0.5, 2), (5, 1), (1, 4))
-
-#Escritura de Datos en un Archivo CSV. Segundo punto:
-
+    # Definir un rango de valores x (puede ser cualquier lista de valores)
+    x = np.linspace(-5, 5, 11)  # 11 valores equidistantes entre -5 y 5
+    
+    # Calcular varios polinomios
+    resultado = calcular_polinomios(x, (2, 3), (-0.5, 2), (5, 1), (1, 4))
+    
+    # Mostrar los resultados
+    print("Valores de x:", x)
+    print("\nResultados:")
+    for polinomio, valores in resultado.items():
+        print(f"\nPolinomio {polinomio}:")
+        for i, (x_val, y_val) in enumerate(zip(x, valores)):
+            print(f"  Para x = {x_val:.1f}, y = {y_val:.2f}")
 
 
 frutas = [
@@ -78,3 +77,10 @@ with open("frutas.csv", mode="r") as archivo_csv:
 
 # Imprimir la lista de listas
 print(datos_frutas)
+
+
+
+
+
+
+ 
