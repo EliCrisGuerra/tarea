@@ -28,6 +28,11 @@ jobs:
       - name: Instalar dependencias
         run: python -m pip install -e . --user
 
+      - name: Descargar dataset desde Google Drive
+        run: |
+          pip install gdown
+          gdown --id 126rqWkKftvJLnHO1nUNw5QRVsTS3m0xq -O Actividad/ACTIVIDAD/src/winemag-data-130k-v2.csv
+
       - name: Ejecutar script de la actividad 
         run: |
           python -m pip install jupyter nbconvert ipykernel --user
